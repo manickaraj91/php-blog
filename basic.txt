@@ -1,0 +1,152 @@
+============ install softwares====================
+1.install xammp
+
+2. install composer
+
+3. install gitbash
+
+-------------------create laravel project--------------------
+1.open floder C:\xampp\htdocs
+
+2.right click  inside C:\xampp\htdocs  ==>choose gitbash
+
+3.create project:
+command:  composer create-project --prefer-dist laravel/laravel project name
+
+4.run project using ----------->  command:  php artisan serve
+
+
+===========(vhosts make) myblog.com instance of http://127.0.0:8080===========
+
+1.open C:\xampp\apache\conf\extra\httpd-vhosts
+
+2.paste below code
+
+	<VirtualHost *:80>
+	DocumentRoot "C:/xampp/htdocs/project name/public"
+
+	ServerName myblog.com
+
+    	</VirtualHost>
+
+3.open folder C:\Windows\System32\drivers\etc\
+
+4.copy hosts.file and paste desktop --> open ---> entercode--->  127.0.0.1  myblog.com -->save
+
+
+================================= views details===============
+views like template
+
+1.views option  present
+	project\resources\views
+
+2.create php file like about.blade.php
+
+
+
+=============route(url) present details=============
+routerlist: command -->  php artisan route:list
+
+1.url option present
+
+	blog\routes\web.php
+
+2.inside web.php enter our url
+
+	Route::get('/about', function ($id) {
+
+		return view('about');
+});
+
+
+
+===========Controller========================
+1.Controller option  present
+
+	blog\app\Http\Controllers
+
+2.create controller
+
+	command: php artisan make:controller name of the Controller
+
+3. inside class make function that function retun views file
+
+	class PagesController extends Controller
+	{
+    	public function index()
+	 {
+        	return view('pages.index');
+		}
+	}
+
+4. route ---->Route::get('/', 'name of controller@function name');
+
+	example: Route::get('/', 'PagesController@index');
+
+===================merge nodejs configuration ==================
+1.nodejs install
+
+2.open windows powershell  choose path "C:/xampp/htdocs/project name
+
+3.command:  composer require laravel/ui
+4.command: php artisan ui vue --auth
+5.command: npm install
+6.command:  npm run dev
+
+
+
+====================make model===================
+1. create new database in phpadmin
+2.	command: php artisan make:model name of the model -m
+
+3.add databasename and password in .envfile
+
+4.open database\migrations
+5.open model relate migration file
+6. add column below column and save it
+
+	       $table->mediumText('body');
+            $table->timestamps();
+
+7.open app\Providers\AppServiceProvider.php
+8. import --> use Illuminate\Support\Facades\Schema;
+
+9. inside of boot function add below code
+
+	Schema::defaultStringLength(191);
+10.migrate use below code
+	command  php artisan migrate
+
+=========Test input given via Seed=============
+1.command:php artisan make:seeder seedername
+	Example:php artisan make:seeder userseeder
+2.
+
+==============COMMAD BASED CRUD operation================
+1. command: php artisan tinker
+
+2. check how many post available in model:App/modelname.count()
+	Example:App\Post.count()
+
+3. add new instance in model
+	Example: $post= new App\Post();
+
+4.add data
+	Example: $post->title='post one';
+5.save data
+	Example $post->save();
+============Controller based CRUD OPERATION===================
+1.command:
+
+php artisan make:controller name of the Controller --resource
+
+================new user register========
+1.command:
+ php artisan ui:auth
+
+2.  The [auth/passwords/confirm.blade.php] view already exists. Do you want to replace it? (yes/no) :yes
+
+3. register new user
+4. php artisan make:migration add_user_to_post
+5. php artisan migrate
+6.open phpmyadmin asign user_id=1
